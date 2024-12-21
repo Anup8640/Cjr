@@ -1,0 +1,51 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><script>const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+// Ball properties
+let ballX = Math.random() * canvas.width;
+let ballY = Math.random() * canvas.height;
+let ballRadius = 20;
+
+// Player's score
+let score = 0;
+
+// Draw ball
+function drawBall() {
+    ctx.beginPath();
+    ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
+    ctx.fillStyle = "red";
+    ctx.fill();
+    ctx.closePath();
+}
+
+// Display score
+function drawScore() {
+    ctx.font = "20px Arial";
+    ctx.fillStyle = "black";
+    ctx.fillText("Score: " + score, 10, 30);
+}
+
+// Detect click on ball
+canvas.addEventListener("click", (event) => {
+    const dx = event.clientX - ballX;
+    const dy = event.clientY - ballY;
+    if (Math.sqrt(dx * dx + dy * dy) < ballRadius) {
+        score++;
+        ballX = Math.random() * canvas.width;
+        ballY = Math.random() * canvas.height;
+    }
+});
+
+// Game loop
+function gameLoop() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawBall();
+    drawScore();
+    requestAnimationFrame(gameLoop);
+}
+
+gameLoop();
+</script>
